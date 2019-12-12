@@ -2,16 +2,13 @@ package com.example.adeso1.huyenthoai.Player;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.adeso1.huyenthoai.Login.SendMail;
+import com.example.adeso1.huyenthoai.Login.Register;
 import com.example.adeso1.huyenthoai.Login.login;
 import com.example.adeso1.huyenthoai.R;
 
@@ -45,7 +42,7 @@ private boolean online=true;
         DangKy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, SendMail.class));
+                startActivity(new Intent(MainActivity.this, Register.class));
             }
         });
         DangNhap.setOnClickListener(new View.OnClickListener() {

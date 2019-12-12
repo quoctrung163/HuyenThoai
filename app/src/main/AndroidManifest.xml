@@ -13,10 +13,6 @@
         <activity android:name=".Player.GameActivity"
             android:theme="@style/AppTheme.NoActionBar"
             />
-        <activity android:name=".Login.SendMail"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
         <activity android:name=".Login.login"
             android:theme="@style/AppTheme.NoActionBar">
 

@@ -1,5 +1,5 @@
 package com.example.adeso1.huyenthoai.Player.work;
-
+//á á á 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
