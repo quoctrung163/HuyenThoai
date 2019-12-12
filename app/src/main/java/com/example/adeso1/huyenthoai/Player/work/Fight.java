@@ -30,30 +30,18 @@ public class Fight {
     public Fight(GameView gameView, int screenY, Resources res)
     {
         this.gameView=gameView;
-        fight1= BitmapFactory.decodeResource(res, R.drawable.fly1);
 
-        fight2= BitmapFactory.decodeResource(res,R.drawable.fly2);
-        width=fight1.getWidth();
-        height=fight2.getHeight();
-        width /=5;
-        height /=4.5;
-
+        shoot1 =BitmapFactory.decodeResource(res,R.drawable.myplan1);
+        shoot2 =BitmapFactory.decodeResource(res,R.drawable.myplane);
+      width=shoot1.getWidth();
+        height=shoot2.getHeight();
+        width /=2.5;
+        height /=2.5;
        width *=(int)screenRatioX;
         height *=(int)screenRatioY;
-        fight1=Bitmap.createScaledBitmap(fight1,(int)width,(int)height,false);
-        fight2=Bitmap.createScaledBitmap(fight2,(int)width,(int)height,false);
-
-        shoot1 =BitmapFactory.decodeResource(res,R.drawable.imgmaybay);
-        shoot2 =BitmapFactory.decodeResource(res,R.drawable.imgmaybay);
-        shoot3 =BitmapFactory.decodeResource(res,R.drawable.imgmaybay);
-        shoot4 =BitmapFactory.decodeResource(res,R.drawable.imgmaybay);
-        shoot5 =BitmapFactory.decodeResource(res,R.drawable.imgmaybay);
-
         shoot1=Bitmap.createScaledBitmap(shoot1,(int)width,(int)height,false);
         shoot2=Bitmap.createScaledBitmap(shoot2,(int)width,(int)height,false);
-        shoot3=Bitmap.createScaledBitmap(shoot3,(int)width,(int)height,false);
-        shoot4=Bitmap.createScaledBitmap(shoot4,(int)width,(int)height,false);
-        shoot5=Bitmap.createScaledBitmap(shoot5,(int)width,(int)height,false);
+
         dead=BitmapFactory.decodeResource(res,R.drawable.dead);
 
     }
@@ -65,36 +53,18 @@ public class Fight {
             shootCounter++;
             return shoot1;
         }
-        if (shootCounter==1)
-        {
-            shootCounter++;
-            return shoot2;
-        }
-        if (shootCounter==2)
-        {
-            shootCounter++;
-            return shoot3;
-        }
-        if (shootCounter==3)
-        {
-            shootCounter++;
-            return shoot4;
-        }if (shootCounter==4)
+
 
         shootCounter-=shootCounter;
         toshoot ++;
 
         gameView.newBullet();
-        return shoot5;
+
 
     }
-        if(wingCount==0)
-        {
-            wingCount++;
-            return  fight1;
-        }
-        wingCount--;
-        return fight2;
+        return shoot2;
+
+
     }
 
 
