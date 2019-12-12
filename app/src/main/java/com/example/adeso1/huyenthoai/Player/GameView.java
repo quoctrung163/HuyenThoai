@@ -1,11 +1,19 @@
 package com.example.adeso1.huyenthoai.Player;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
+import android.widget.Toast;
+
 
 import com.example.adeso1.huyenthoai.Player.work.Bullet;
 import com.example.adeso1.huyenthoai.Player.work.Fight;
@@ -16,6 +24,8 @@ import java.util.List;
 import java.util.Random;
 
 import static android.graphics.Paint.Cap.ROUND;
+import static androidx.core.content.ContextCompat.startActivity;
+
 
 public  class  GameView extends SurfaceView implements Runnable{
 
@@ -27,29 +37,30 @@ public  class  GameView extends SurfaceView implements Runnable{
 
         public static float screenRatioX, screenRatioY;
         private  boolean isplaying;
-        private  boolean isgameover=false;
+
         private GameActivity activity;
         private Planes[] planes;
         private Random random;
         private Fight fight;
         private List<Bullet> bullets;
         private boolean flagScrore=false;
+        private static Context context;
         //thanhhp
         public int HP=360;
-
-
-
+        //Game kết thúc
+        private  boolean isgameover=false;
         private Background background1,background2;
-        public GameView(GameActivity Activity,int screenX,int screenY) {
-            super(Activity);
-            this.activity=Activity;
+
+
+        public GameView(GameActivity gameActivity,int screenX,int screenY) {
+            super(gameActivity);
+           this.activity=gameActivity;
             this.screenX=screenX;
             this.screenY=screenY;
             screenRatioX=1;
             screenRatioY=1;
             background1=new Background(screenX,screenY,getResources());
             background2=new Background(screenX,screenY,getResources());
-
             background2.y=-screenY;
             fight=new Fight(this,screenY,getResources());
             bullets =new ArrayList<>();
@@ -62,15 +73,35 @@ public  class  GameView extends SurfaceView implements Runnable{
             }
             //
             random=new Random();
+
         }
 
         @Override
         public void run() {
             while (isplaying){
+                //Nếu thua thì thoát khỏi vòng lặp
+                if(isgameover==true)
+                {
+                    break;
+                }
                 update();
                 draw();
                 sleep();
             }
+            //Hiện cửa sổ khi thua
+            activity.runOnUiThread(new Runnable() {
+                public void run() {
+
+                    /*
+                    Dialog dialog=new Dialog(getContext());
+                    dialog.setContentView(R.layout.activity_main);
+                    dialog.show();
+
+                     */
+                    Intent myIntent = new Intent(getContext(), MainActivity.class);
+                    getContext().startActivity(myIntent);
+                }
+            });
         }
         private void update(){
             //Cho backgroud di chuyển từ trên xuống dưới
@@ -86,8 +117,8 @@ public  class  GameView extends SurfaceView implements Runnable{
             if(getHolder().getSurface().isValid());
             {
 
-                Canvas canvas = null;
-                canvas=getHolder().lockCanvas();
+
+               Canvas canvas=getHolder().lockCanvas();
                 try {
 
                     if(canvas!=null)
@@ -104,9 +135,6 @@ public  class  GameView extends SurfaceView implements Runnable{
                         drawScrore(canvas);
                         //Vẽ máu
                         drawBlood(canvas);
-
-
-
 
                     }
 
@@ -195,7 +223,9 @@ public  class  GameView extends SurfaceView implements Runnable{
             //Lấy từng máy bay
             for (int i=0;i<planes.length;i++)
             {
+
                 planes[i].y+= planes[i].speed;
+
                 if(planes[i].y+planes[i].height>screenY)
                 {
                     int bound=(int)(30*screenRatioX);
@@ -226,7 +256,7 @@ public  class  GameView extends SurfaceView implements Runnable{
             {
                 if (bullet.y>screenY)
                     trash .add(bullet);
-                bullet.y-=200;
+                bullet.y-=300;
                 //Xử lý va chạm với máy bay địch
                 for (Planes pla:planes)
                 {
@@ -241,8 +271,15 @@ public  class  GameView extends SurfaceView implements Runnable{
                     //Nếu tọa độ máy bay mình với địch giống nhau
                     if(Rect.intersects(pla.getShape(),fight.getShape()))
                     {
+                        //Nếu hết máu
+                        if(HP<=100)
+                        {
 
-                        HP-=5;
+                         isgameover=true;
+
+
+                        }
+                        HP-=100;
                         pla.x=-500;
                     }
 
@@ -275,8 +312,8 @@ public  class  GameView extends SurfaceView implements Runnable{
         {
             for(Bullet bullet:bullets)
             {
-                canvas.drawBitmap(bullet.bullet,bullet.x,bullet.y,paint);
-                canvas.drawBitmap(bullet.bullet,bullet.x+screenX/14,bullet.y,paint);
+                canvas.drawBitmap(bullet.bullet,bullet.x+screenX/46-1,bullet.y+screenX/35,paint);
+                canvas.drawBitmap(bullet.bullet,bullet.x+screenX/9-3,bullet.y+screenX/35,paint);
 
             }
         }
@@ -317,5 +354,7 @@ public  class  GameView extends SurfaceView implements Runnable{
 
 
             }
+
+
     }
 
